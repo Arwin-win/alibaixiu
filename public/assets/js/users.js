@@ -3,7 +3,7 @@ $.ajax({
     url: '/users',
     success: function (res) {
         // console.log(res);
-        var html = template('usersTpl', { data: res });
+        var html = template('userTpl', { data: res });
         // console.log(html);
         $('#userBox').html(html);
     }
@@ -12,7 +12,7 @@ $.ajax({
 //实现添加用户
 $('#userForm').on('submit', function () {
     var formData = $(this).serialize();
-    console.log(formData);
+    // console.log(formData);
 
     $.ajax({
         type: 'post',
@@ -26,30 +26,49 @@ $('#userForm').on('submit', function () {
     // console.log(formData);
     return false;//兼容性最强
 });
-$('#modifyBox').on('change', "#avatar", function () {
+// $('#modifyBox').on('change', "#avatar", function () {
+//     var fd = new FormData();
+//     fd.append('avatar', this.files[0]);
+//     $.ajax({
+//         type: 'post',
+//         url: '/upload',
+
+//         // jq默认我们传的是一个对象，他会帮我们转换成key=value&key=value的形式
+//         // 但是我们现在数据文件上传 multipart/form-data 数据分开传
+//         // 告诉$.ajax方法不要解析请求参数
+//         processData: false,
+//         // jq默认会添加一行代码 xhr.setRequestHeader('content-type',)
+//         // 告诉$.ajax方法不要设置请求参数的类型
+//         contentType: false,
+//         data: fd,
+//         success: function (res) {
+//             console.log(res);
+//             // 实现头像预览功能
+//             $('#preview').attr('src', res[0].avatar);
+//             // 显示用户添加头像后的的头像展示
+//             $('#hiddenAvatar').val(res[0].avatar);
+//         }
+//     })
+// });
+
+$('#modifyBox').on('change', '#avatar', function () {
     var fd = new FormData();
     fd.append('avatar', this.files[0]);
     $.ajax({
         type: 'post',
         url: '/upload',
-
-        // jq默认我们传的是一个对象，他会帮我们转换成key=value&key=value的形式
-        // 但是我们现在数据文件上传 multipart/form-data 数据分开传
-        // 告诉$.ajax方法不要解析请求参数
-        processData: false,
-        // jq默认会添加一行代码 xhr.setRequestHeader('content-type',)
-        // 告诉$.ajax方法不要设置请求参数的类型
+        processData: false,//不加processData: false会自动添加一行xhr.setRequestHeader('content-type')
         contentType: false,
         data: fd,
         success: function (res) {
             console.log(res);
-            // 实现头像预览功能
             $('#preview').attr('src', res[0].avatar);
-            // 显示用户添加头像后的的头像展示
             $('#hiddenAvatar').val(res[0].avatar);
         }
     })
-});
+})
+
+
 
 // 通过事件委托的方式为编辑按钮添加点击事件
 $('#userBox').on('click', '.edit', function () {
@@ -60,7 +79,7 @@ $('#userBox').on('click', '.edit', function () {
         type: 'get',
         url: '/users/' + id,
         success: function (res) {
-            console.log(res);
+            // console.log(res);
             var html = template('modifyTpl', res)
             $('#modifyBox').html(html);
 
@@ -70,13 +89,17 @@ $('#userBox').on('click', '.edit', function () {
 
 // 为修改表单添加表单提交事件
 $('#modifyBox').on('submit', '#modifyForm', function () {
-    console.log($(this).serialize());
+    // console.log($(this).serialize());
+    var formData = $(this).serialize();
     var id = $(this).attr('data-id');
     $.ajax({
         type: 'put',
         url: '/users/' + id,
         data: $(this).serialize(),
+        // data:formData,
         success: function () {
+            // console.log( $(this).serialize());
+            
             location.reload()
         }
     })

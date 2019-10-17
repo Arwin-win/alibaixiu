@@ -37,8 +37,9 @@
                   <input id="avatar" type="file">
                   <img src="../assets/img/default.png" id="preview">
                   <!-- 只是用来接收用户上传的图片路径的，不应该被用户看到 -->
-                  <input type="hidden" name="avatar" id="hiddenAvatar">
+                 
                   <i class="mask fa fa-upload"></i>
+                  <input type="hidden" name="avatar" id="hiddenAvatar">
                 </label>
               </div>
             </div>
@@ -141,7 +142,7 @@
   <script src="../assets/vendors/jquery/jquery.js"></script>
   <script src="../assets/vendors/bootstrap/js/bootstrap.js"></script>
   <script src="../assets/vendors/art-template/template-web.js"></script>
-  <script type="text/html" id="usersTpl">
+  <script type="text/html" id="userTpl">
     {{each data}}
     <tr>
         <td class="text-center" ><input type="checkbox" data-id="{{$value._id}}"></td>
@@ -174,10 +175,9 @@
               {{else}}
               <img src="../assets/img/default.png" id="preview">
               {{/if}}
+              <input type="hidden" name="avatar" id="hiddenAvatar" value="{{avatar}}">
               <i class="mask fa fa-upload"></i>
               <!-- 只是用来接收用户上传的图片的路径的，不应该被用户看到 -->
-          <!-- <input type="text" name="avatar" id="ceshi" style="display: none;"> -->
-          <input type="hidden" name="avatar" id="hiddenImg" value="{{avatar}}">
             </label>
           </div>
         </div>
@@ -211,7 +211,7 @@
         </div>
       </form>
   </script>
-
+  
   <script src="../assets/js/users.js"></script>
 </body>
 
